@@ -1,4 +1,3 @@
-import { TypeOrmModule } from "@nestjs/typeorm";
 import { IsNotEmpty } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 

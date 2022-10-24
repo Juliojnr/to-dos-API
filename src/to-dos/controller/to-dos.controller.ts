@@ -1,10 +1,7 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post } from "@nestjs/common";
-import { Put } from "@nestjs/common/decorators";
+import { Delete, Put } from "@nestjs/common/decorators";
 import { Todos } from "../entities/to-dos.entity";
 import { TodoService } from "../service/to-dos.service";
-
-
-
 
 @Controller('/todos')
 export class TodoController {
@@ -31,6 +28,12 @@ export class TodoController {
     @HttpCode(HttpStatus.OK)
     update(@Body()todo: Todos): Promise<Todos> {
         return this.todoService.update(todo)
+    }
+
+    @Delete('/:id')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    delete(@Param('id', ParseIntPipe)id: number) {
+        return this.todoService.delete(id)
     }
 
 

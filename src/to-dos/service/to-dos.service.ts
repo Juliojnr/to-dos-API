@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm/dist/common";
-import { Repository } from "typeorm";
+import { DeleteResult, Repository } from "typeorm";
 import { Todos } from "../entities/to-dos.entity";
 
 
@@ -18,6 +18,7 @@ export class TodoService {
     }
 
     async findById(id: number): Promise<Todos> {
+        
         let todo = await this.todosRepository.findOne({
             where: {
                 id
@@ -39,6 +40,15 @@ export class TodoService {
         if (!searchTodo || !todos.id)
             throw new HttpException('Todo não encontrado!', HttpStatus.NOT_FOUND)
         return this.todosRepository.save(todos)
+    }
+
+    async delete(id: number): Promise<DeleteResult> {
+
+        let searchTodo = await this.findById(id)
+
+        if(!searchTodo)
+            throw new HttpException('TODO não encontrado!', HttpStatus.NOT_FOUND)
+        return await this.todosRepository.delete(id)
     }
         
 }
